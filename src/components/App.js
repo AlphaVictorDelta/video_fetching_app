@@ -2,6 +2,7 @@ import React from "react";
 import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube"
 import VideoList from "./VideoList";
+import VideoDetail from "./VideoDetail";
 class App extends React.Component {
 
     state = { videosDataFromRequest: [], selectedVideo: null };
@@ -13,7 +14,11 @@ class App extends React.Component {
             }
         });
 
-        this.setState({ videosDataFromRequest: apiResponse.data.items });
+        this.setState({
+            videosDataFromRequest: apiResponse.data.items,
+            selectedVideo: apiResponse.data.items[0]
+        });
+
     };
 
     onVideoSelect = (selectedVideo) => {
@@ -24,8 +29,17 @@ class App extends React.Component {
         return (
             <div className="ui container">
                 <SearchBar onFormSubmit={this.onUserSearchTermSubmit} />
-                <VideoList onVideoSelect={this.onVideoSelect} videos={this.state.videosDataFromRequest} />
-            </div >
+                <div className="ui grid">
+                    <div className="ui row">
+                        <div className="eleven wide column">
+                            <VideoDetail video={this.state.selectedVideo} />
+                        </div>
+                        <div className="five wide column">
+                            <VideoList onVideoSelect={this.onVideoSelect} videos={this.state.videosDataFromRequest} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
