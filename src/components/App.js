@@ -7,6 +7,10 @@ class App extends React.Component {
 
     state = { videosDataFromRequest: [], selectedVideo: null };
 
+    componentDidMount() {
+        this.onUserSearchTermSubmit("Kings and Generals");
+    };
+
     onUserSearchTermSubmit = async (userSearchTerm) => {
         const apiResponse = await youtube.get('/search', {
             params: {
@@ -16,7 +20,7 @@ class App extends React.Component {
 
         this.setState({
             videosDataFromRequest: apiResponse.data.items,
-            selectedVideo: apiResponse.data.items[0]
+            selectedVideo: apiResponse.data.items[3]
         });
 
     };
